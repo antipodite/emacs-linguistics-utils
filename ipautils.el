@@ -5,10 +5,10 @@
 ;;;; © Isaac Stead 2021
 ;;;;
 
-(require 'cl)
+(require 'cl-lib)
 (require 'ido)
 
-(defconst ipautils-mnemonic-data
+(defconst ipautils-data
   '(("p" . "voiceless bilabial plosive")
     ("b" . "voiced bilabial plosive")
     ("t" . "voiceless dental;alveolar plosive")
@@ -190,11 +190,14 @@
     ("˩˨" . "low rising contour")
     ("˧˦˧" . "rising-falling contour")))
 
-(defconst ipautils-mnemonic-completions
-  (cl-loop for pair in ipa-mnemonic-data collect (cdr pair)))
+(defconst ipautils-completions
+  (cl-loop for pair in ipautils-data collect (cdr pair)))
 
-(defun ipautils-mnemonic-insert ()
+;;;###autoload
+(defun ipautils-insert ()
   (interactive)
   (insert (car (rassoc (ido-completing-read "Features: "
-                                            ipa-mnemonic-completions nil t)
-                       ipa-mnemonic-data))))
+                                            ipautils-completions nil t)
+                       ipautils-data))))
+
+(provide 'ipautils)
