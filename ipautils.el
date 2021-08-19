@@ -8,7 +8,10 @@
 (require 'cl-lib)
 (require 'ido)
 
+;;; Mnemonic IPA entry with autocompletion
+
 (defconst ipautils-data
+  ;; Derived from https://github.com/AdamSteffanick/ipa-data
   '(("p" . "voiceless bilabial plosive")
     ("b" . "voiced bilabial plosive")
     ("t" . "voiceless dental;alveolar plosive")
@@ -188,7 +191,11 @@
     ("˥˩" . "falling contour")
     ("˦˥" . "high rising contour")
     ("˩˨" . "low rising contour")
-    ("˧˦˧" . "rising-falling contour")))
+    ("˧˦˧" . "rising-falling contour")
+    ;; Later additions
+    ("∅" . "null")
+    ;; To be used for phoneme defs without interfering with org syntax
+    ("⁄" . "slash")))
 
 (defconst ipautils-completions
   (cl-loop for pair in ipautils-data collect (cdr pair)))
@@ -199,5 +206,13 @@
   (insert (car (rassoc (ido-completing-read "Features: "
                                             ipautils-completions nil t)
                        ipautils-data))))
+
+;;;###autoload
+(define-minor-mode ipautils-mode
+  "Minor mode providing some small features to aid working with linguistics data"
+  :lighter " lingmode"
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-c i") 'ipautils-insert)
+            map))
 
 (provide 'ipautils)
