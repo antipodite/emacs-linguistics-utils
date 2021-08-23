@@ -195,7 +195,8 @@
     ;; Later additions
     ("∅" . "null")
     ;; To be used for phoneme defs without interfering with org syntax
-    ("⁄" . "slash")))
+    ("⁄" . "slash")
+    ("ʷ" . "labialised")))
 
 (defconst ipautils-completions
   (cl-loop for pair in ipautils-data collect (cdr pair)))
@@ -203,9 +204,11 @@
 ;;;###autoload
 (defun ipautils-insert ()
   (interactive)
-  (insert (car (rassoc (ido-completing-read "Features: "
-                                            ipautils-completions nil t)
-                       ipautils-data))))
+  ;; Build list of completions within the function so it isn't prone to side effects
+  (let ((completions (cl-loop for pair in ipautils-data collect (cdr pair))))
+    (insert (car (rassoc (ido-completing-read "Features: "
+                                              completions nil t)
+                         ipautils-data)))))
 
 ;;;###autoload
 (define-minor-mode ipautils-mode
