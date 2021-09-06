@@ -194,9 +194,11 @@
     ("˧˦˧" . "rising-falling contour")
     ;; Later additions
     ("∅" . "null")
-    ;; To be used for phoneme defs without interfering with org syntax
-    ("⁄" . "slash")
-    ("ʷ" . "labialised")))
+    ("⁄" . "slash") ; To be used for phoneme defs without interfering with org syntax
+    ("ʷ" . "labialised")
+    ("ᵐ" . "nasalised-bilabial")
+    ("ᶮ" . "nasalised-palatal")
+    ("ᵑ" . "nasalised-velar")))
 
 (defconst ipautils-completions
   (cl-loop for pair in ipautils-data collect (cdr pair)))
